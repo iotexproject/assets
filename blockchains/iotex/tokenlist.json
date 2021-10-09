@@ -1,0 +1,25 @@
+{
+    "name": "IoTeX Wallet: IoTeX",
+    "logoURI": "",
+    "timestamp": "2021-10-08T10:12:10.559Z",
+    "chainId": 4689,
+    "rpc": "https://babel-api.mainnet.iotex.io/",
+    "symbol": "IOTX",
+    "tokens": [
+        {
+            "type": "ERC20",
+            "address": "0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0",
+            "name": "Vitality",
+            "symbol": "VITA",
+            "decimals": 18,
+            "logoURI": "https://raw.githubusercontent.com/iotexproject/assets/master/blockchains/iotex/assets/0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0/logo.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xb8403ffba4d0af0e430b128c5569e335ec00c4c9",
+            "name": "CMC Staking",
+            "symbol": "CMCS",
+            "logoURI": "https://raw.githubusercontent.com/iotexproject/assets/master/blockchains/iotex/assets/0xb8403ffba4d0af0e430b128c5569e335ec00c4c9/logo.png"
+        }
+    ]
+}

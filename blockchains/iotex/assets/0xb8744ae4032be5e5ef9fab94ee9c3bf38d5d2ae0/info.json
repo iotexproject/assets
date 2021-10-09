@@ -1,0 +1,11 @@
+{
+    "id": "0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0",
+    "name": "Vitality",
+    "website": "https://vitamart.io/",
+    "description": "Online marketplace where IoTeX community can use IOTX & VITA to purchase exclusive products.",
+    "explorer": "https://iotexscan.io/token/0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0",
+    "type": "ERC20",
+    "symbol": "VITA",
+    "decimals": 18,
+    "status": "active"
+}
