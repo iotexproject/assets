@@ -31,5 +31,13 @@ func main() {
 		return c.SendString(string(data))
 	})
 
+	app.Get("", func(c *fiber.Ctx) error {
+		return nil
+	})
+
+	app.Get("", func(c *fiber.Ctx) error {
+		return nil
+	})
+
 	log.Fatal(app.Listen(":3000"))
 }
