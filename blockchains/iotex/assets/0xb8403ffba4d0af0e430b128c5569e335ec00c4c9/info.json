@@ -5,7 +5,7 @@
     "description": "Exclusive IoTeX Staking NFT earned from https://iotex.io/start.",
     "explorer": "https://iotexscan.io/xrc721-token/0xb8403ffba4d0af0e430b128c5569e335ec00c4c9",
     "type": "ERC721",
-    "tokenURI": "ipfs_metadata",
+    "tokenURI": "http_json_metadata_image",
     "symbol": "CMCS",
     "status": "active"
 }
