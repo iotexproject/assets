@@ -98,6 +98,7 @@
             "address": "0xa387f2ba07d3180500c2d0bbff2ac7ecc07d88f0",
             "name": "Metanyx - Limited Edition NFT for IoTeX",
             "symbol": "Metanyx",
+            "tokenURI": "iotex_token_metadata",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io15wrl9ws86vvq2qxz6zal72k8anq8mz8sx8n65h.png"
         },
         {
@@ -105,6 +106,7 @@
             "address": "0x0c5ab026d74c451376a4798342a685a0e99a5bee",
             "name": "MachineFi NFT",
             "symbol": "MFI",
+            "tokenURI": "iotex_token_metadata",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1p3dtqfkhf3z3xa4y0xp59f595r5e5klwwnrex7.png"
         },
         {
@@ -112,6 +114,7 @@
             "address": "0x3cca8164adbf428dfeb292c2d1ec9803f67c9edb",
             "name": "Blade Character",
             "symbol": "NBLC",
+            "tokenURI": "http_json_metadata_image",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io18n9gze9dhapgml4jjtpdrmycq0m8e8kmden7fl.png"
         },
         {
@@ -119,6 +122,7 @@
             "address": "0x9f60e573197d1eef369b155efa5f048d8d510942",
             "name": "Blade Weapon",
             "symbol": "NBLW",
+            "tokenURI": "http_json_metadata_image",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1nasw2uce050w7d5mz4005hcy3kx4zz2zhewav6.png"
         },
         {
