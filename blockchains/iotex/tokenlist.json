@@ -32,10 +32,115 @@
         },
         {
             "type": "ERC721",
+            "address": "0x8d62bd443a38705bfb57d91fd130447fcbb8272b",
+            "name": "LongZ Card",
+            "symbol": "LongZ",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1343t63p68pc9h76hmy0azvzy0l9msfetp2at70.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x8d1fdef8e955eb81267af67cdec9b7f2c688faa5",
+            "name": "Burn-Drop Ignite",
+            "symbol": "BDI",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1350aa78f2h4czfn67e7dajdh7trg3749rp40ne.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x6d4d3e3499df0e9f2e4b02cec088928ff78ad986",
+            "name": "I voted",
+            "symbol": "IVOTED",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1d4xnudyemu8f7tjtqt8vpzyj3lmc4kvx7fszpn.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x6f84c8d94b52c915475be068a4b34164c1c28dc1",
+            "name": "PrivacyMatters",
+            "symbol": "PMT",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1d7zv3k2t2ty3236mup52fv6pvnqu9rwpdkcde6.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xad895bab9aedc05604631acbcd293010acee2962",
+            "name": "GameFantasyCat",
+            "symbol": "GFC",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io14ky4h2u6ahq9vprrrt9u62fszzkwu2tz04mf03.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x3233ebc7d3f1ae364bb6e2f15f6bbb9be2f4b71c",
+            "name": "Idea-Thon Winner",
+            "symbol": "ITW",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1xge7h37n7xhrvjakutc476amn030fdcucyvu4r.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x002e2e6dbeaf9312a7c24e6754eb9f21afff7aab",
+            "name": "Idea-Thon",
+            "symbol": "ITP",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1qqhzumd747f39f7zfen4f6ulyxhl774tknf778.png"
+        },
+        {
+            "type": "ERC721",
             "address": "0xb8403ffba4d0af0e430b128c5569e335ec00c4c9",
             "name": "CMC Staking",
             "symbol": "CMCS",
             "logoURI": "https://raw.githubusercontent.com/iotexproject/assets/master/blockchains/iotex/assets/0xb8403ffba4d0af0e430b128c5569e335ec00c4c9/logo.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xa387f2ba07d3180500c2d0bbff2ac7ecc07d88f0",
+            "name": "Metanyx - Limited Edition NFT for IoTeX",
+            "symbol": "Metanyx",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io15wrl9ws86vvq2qxz6zal72k8anq8mz8sx8n65h.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x0c5ab026d74c451376a4798342a685a0e99a5bee",
+            "name": "MachineFi NFT",
+            "symbol": "MFI",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1p3dtqfkhf3z3xa4y0xp59f595r5e5klwwnrex7.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x3cca8164adbf428dfeb292c2d1ec9803f67c9edb",
+            "name": "Blade Character",
+            "symbol": "NBLC",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io18n9gze9dhapgml4jjtpdrmycq0m8e8kmden7fl.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x9f60e573197d1eef369b155efa5f048d8d510942",
+            "name": "Blade Weapon",
+            "symbol": "NBLW",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1nasw2uce050w7d5mz4005hcy3kx4zz2zhewav6.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x7722d6968c9bed93052bede0da66c48a68801b9d",
+            "name": "Cartesi Ideathon",
+            "symbol": "CTH",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1wu3dd95vn0kexpftahsd5eky3f5gqxuaykl039.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xe6df6f666be3d9d4060d14de4c4e778e1addb912",
+            "name": "Pebble Pioneer",
+            "symbol": "PPT",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1um0k7entu0vagpsdzn0ycnnh3cddmwgj0lpsmw.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xbcdd21177f557f0493f02fcda711ac522282e590",
+            "name": "Covalent x IoTeX",
+            "symbol": "CXI",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1hnwjz9ml24lsfyls9lx6wydv2g3g9evshlckgj.png"
         }
     ]
 }
