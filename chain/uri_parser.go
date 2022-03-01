@@ -53,6 +53,23 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 			return "", fmt.Errorf("convert io address error: %v", err)
 		}
 		image = details[ioAddr.String()].ImageUrls[0]
+	} else if info.TokenURI == "tokenURI" {
+		client, err := ethclient.Dial("https://babel-api.mainnet.iotex.io/")
+		if err != nil {
+			return "", fmt.Errorf("connect rpc error: %v", err)
+		}
+		contractAddr := common.HexToAddress(info.Id)
+
+		contract, err := contracts.NewERC721(contractAddr, client)
+		if err != nil {
+			return "", fmt.Errorf("construct contract error: %v", err)
+		}
+		tokenId, _ := new(big.Int).SetString(id, 10)
+		tokenURL, err := contract.TokenURI(nil, tokenId)
+		if err != nil {
+			return "", fmt.Errorf("read tokenURI error: %v", err)
+		}
+		image = string(tokenURL)
 	} else if strings.HasPrefix(info.TokenURI, "http_json_metadata") {
 		client, err := ethclient.Dial("https://babel-api.mainnet.iotex.io/")
 		if err != nil {

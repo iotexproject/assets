@@ -24,6 +24,14 @@
         },
         {
             "type": "ERC721",
+            "address": "0xce300b00aa9c066786d609fc96529dbedaa30b76",
+            "name": "IoTeX PUNKS",
+            "symbol": "PUNK",
+            "tokenURI": "http_json_metadata_image",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1eccqkq92nsrx0pkkp87fv55ahmd2xzmkxpt677.png"
+        },
+        {
+            "type": "ERC721",
             "address": "0xb8403ffba4d0af0e430b128c5569e335ec00c4c9",
             "name": "CMC Staking",
             "symbol": "CMCS",
