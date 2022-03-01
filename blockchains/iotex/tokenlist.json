@@ -16,6 +16,14 @@
         },
         {
             "type": "ERC721",
+            "address": "0x30582ede7fadeba4973dd71f1ce157b7203171ea",
+            "name": "Ucam Pioneer",
+            "symbol": "UPT",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1xpvzahnl4h46f9ea6u03ec2hkusrzu020th8xx.png"
+        },
+        {
+            "type": "ERC721",
             "address": "0xb8403ffba4d0af0e430b128c5569e335ec00c4c9",
             "name": "CMC Staking",
             "symbol": "CMCS",
