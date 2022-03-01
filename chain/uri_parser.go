@@ -7,12 +7,12 @@ import (
 	"math/big"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/iotexproject/assets/chain/contracts"
 	"github.com/iotexproject/iotex-address/address"
-	"github.com/patrickmn/go-cache"
 )
 
 func ParseNFTImage(info *TokenInfo, id string) (string, error) {
@@ -103,6 +103,6 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		segments := strings.Split(info.TokenURI, "_")
 		image = data[segments[3]].(string)
 	}
-	CACHE.Set("iotex:"+info.Id+":"+id, image, cache.DefaultExpiration)
+	CACHE.Set("iotex:"+info.Id+":"+id, image, time.Minute*5)
 	return image, nil
 }
