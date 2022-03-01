@@ -11,6 +11,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/iotexproject/assets/chain/contracts"
+	"github.com/iotexproject/iotex-address/address"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -23,7 +24,36 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		return ci.(string), nil
 	}
 	var image string
-	if strings.HasPrefix(info.TokenURI, "http_json_metadata") {
+	if info.TokenURI == "iotex_token_metadata" {
+		resp, err := http.Get("https://iotexproject.iotex.io/iotex-token-metadata/master/token-metadata.json")
+		if err != nil {
+			return "", fmt.Errorf("fetch iotex token metadata error: %v", err)
+		}
+		defer resp.Body.Close()
+		metadata, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return "", fmt.Errorf("read iotex token metadata body error: %v", err)
+		}
+
+		var details map[string]struct {
+			Name        string   `json:"name"`
+			Description string   `json:"description"`
+			Logo        string   `json:"logo"`
+			Type        string   `json:"type"`
+			Symbol      string   `json:"symbol"`
+			ImageUrls   []string `json:"image_urls"`
+		}
+		if err := json.Unmarshal(metadata, &details); err != nil {
+			return "", fmt.Errorf("unmarshal iotex token metadata error: %v", err)
+		}
+
+		ethAddr := common.HexToAddress(info.Id)
+		ioAddr, err := address.FromBytes(ethAddr.Bytes())
+		if err != nil {
+			return "", fmt.Errorf("convert io address error: %v", err)
+		}
+		image = details[ioAddr.String()].ImageUrls[0]
+	} else if strings.HasPrefix(info.TokenURI, "http_json_metadata") {
 		client, err := ethclient.Dial("https://babel-api.mainnet.iotex.io/")
 		if err != nil {
 			return "", fmt.Errorf("connect rpc error: %v", err)
