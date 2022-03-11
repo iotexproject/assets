@@ -52,7 +52,11 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		if err != nil {
 			return "", fmt.Errorf("convert io address error: %v", err)
 		}
-		image = details[ioAddr.String()].ImageUrls[0]
+		if _, ok := details[ioAddr.String()]; ok {
+			image = details[ioAddr.String()].ImageUrls[0]
+		} else {
+			return "", fmt.Errorf("can't found %s token metadata", ioAddr.String())
+		}
 	} else if info.TokenURI == "tokenURI" {
 		client, err := ethclient.Dial("https://babel-api.mainnet.iotex.io/")
 		if err != nil {
