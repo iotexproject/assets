@@ -145,6 +145,22 @@
             "name": "Covalent x IoTeX",
             "symbol": "CXI",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1hnwjz9ml24lsfyls9lx6wydv2g3g9evshlckgj.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x22e30ce48e1e2dff1d2711999bc35bb69ac8eb13",
+            "name": "Iotex_Sons_Avatars",
+            "symbol": "IOSA",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1yt3seeywrckl78f8zxvehs6mk6dv36cnvljex3.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x9756e951dd76e933e34434db4ed38964951e588b",
+            "name": "SUMOTEX",
+            "symbol": "SUMOTEX",
+            "tokenURI": "ipfs_json_metadata_image",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1jatwj5wawm5n8c6yxnd5a5ufvj23ukytr0evfq.png"
         }
     ]
 }
