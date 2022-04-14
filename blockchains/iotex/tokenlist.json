@@ -130,6 +130,7 @@
             "address": "0x7722d6968c9bed93052bede0da66c48a68801b9d",
             "name": "Cartesi Ideathon",
             "symbol": "CTH",
+            "tokenURI": "ipfs_json_metadata_image",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1wu3dd95vn0kexpftahsd5eky3f5gqxuaykl039.png"
         },
         {
@@ -137,6 +138,7 @@
             "address": "0xe6df6f666be3d9d4060d14de4c4e778e1addb912",
             "name": "Pebble Pioneer",
             "symbol": "PPT",
+            "tokenURI": "iotex_token_metadata",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1um0k7entu0vagpsdzn0ycnnh3cddmwgj0lpsmw.png"
         },
         {
@@ -144,6 +146,7 @@
             "address": "0xbcdd21177f557f0493f02fcda711ac522282e590",
             "name": "Covalent x IoTeX",
             "symbol": "CXI",
+            "tokenURI": "ipfs_json_metadata_image",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1hnwjz9ml24lsfyls9lx6wydv2g3g9evshlckgj.png"
         },
         {
@@ -167,6 +170,7 @@
             "address": "0xe5557bbe5e3f983f91c9f4380be7976b65865e38",
             "name": "Community Leader",
             "symbol": "CLT",
+            "tokenURI": "iotex_token_metadata",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1u42hh0j787vrlywf7suqheuhddjcvh3c6g5y58.png"
         }
     ]

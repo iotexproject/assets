@@ -25,7 +25,7 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 	}
 	var image string
 	if info.TokenURI == "iotex_token_metadata" {
-		resp, err := http.Get("https://iotexproject.iotex.io/iotex-token-metadata/master/token-metadata.json")
+		resp, err := http.Get("https://raw.githubusercontent.com/iotexproject/iotex-token-metadata/master/token-metadata.json")
 		if err != nil {
 			return "", fmt.Errorf("fetch iotex token metadata error: %v", err)
 		}
