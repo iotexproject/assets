@@ -161,6 +161,13 @@
             "symbol": "SUMOTEX",
             "tokenURI": "ipfs_json_metadata_image",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1jatwj5wawm5n8c6yxnd5a5ufvj23ukytr0evfq.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xe5557bbe5e3f983f91c9f4380be7976b65865e38",
+            "name": "Community Leader",
+            "symbol": "CLT",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1u42hh0j787vrlywf7suqheuhddjcvh3c6g5y58.png"
         }
     ]
 }
