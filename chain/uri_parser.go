@@ -122,7 +122,7 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
-		metadataURL = strings.Replace(metadataURL, "ipfs://", "https://cloudflare-ipfs.com/ipfs/", 1)
+		metadataURL = strings.Replace(metadataURL, "ipfs://", "https://ipfs.io/ipfs/", 1)
 		resp, err := http.Get(metadataURL)
 		if err != nil {
 			return "", fmt.Errorf("fetch metadata error: %v", err)
@@ -139,7 +139,7 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		}
 		segments := strings.Split(info.TokenURI, "_")
 		image = data[segments[3]].(string)
-		image = strings.Replace(image, "ipfs://", "https://cloudflare-ipfs.com/ipfs/", 1)
+		image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
 	}
 	CACHE.Set("iotex:"+info.Id+":"+id, image, time.Minute*5)
 	return image, nil
