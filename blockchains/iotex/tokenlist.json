@@ -172,6 +172,14 @@
             "symbol": "CLT",
             "tokenURI": "iotex_token_metadata",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1u42hh0j787vrlywf7suqheuhddjcvh3c6g5y58.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x278f851c98ac86cf016370cc93fda2fc3114bc4a",
+            "name": "No War",
+            "symbol": "NWT",
+            "tokenURI": "iotex_token_metadata",
+            "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1y78c28yc4jrv7qtrwrxf8ldzlsc3f0z2v4fl78.png"
         }
     ]
 }
