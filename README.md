@@ -34,4 +34,7 @@ curl -i http://localhost:3000/token/ethereum/0x90350ac498e9e78943f1286053c1985ef
 curl -i http://localhost:3000/token/ethereum/0xdc85866ddd95fa9b7c856944fab128902ca8c60f/image/1
 curl -i http://localhost:3000/token/ethereum/0x33fd426905f149f8376e227d0c9d3340aad17af1/image/1
 curl -i http://localhost:3000/token/ethereum/0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb/image/1
+// TODO process error code
+curl -i http://localhost:3000/token/ethereum/0x82c7a8f707110f5fbb16184a5933e9f78a34c6ab/image/5986037213260671
+curl -i http://localhost:3000/token/ethereum/0x394e3d3044fc89fcdd966d3cb35ac0b32b0cda91/image/1
 ```

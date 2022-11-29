@@ -112,7 +112,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		}
 
 		var data map[string]interface{}
-		if err := json.Unmarshal(metadata, &data); err != nil {
+		if err := json.Unmarshal([]byte(string(metadata)), &data); err != nil {
 			return "", fmt.Errorf("unmarshal metadata error: %v", err)
 		}
 		segments := strings.Split(info.TokenURI, "_")

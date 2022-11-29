@@ -196,7 +196,7 @@
             "address": "0x05072a7137d11e281cef6f58e00dba69d66616da",
             "name": "SHiELD:AGE",
             "symbol": "SA",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://i.seadn.io/gcs/files/a51532861c8419fcbcb213050e0e3a8b.png?w=500&auto=format"
         },
         {
@@ -204,7 +204,7 @@
             "address": "0x340700450f0303791529789793909c703730926f",
             "name": "CryptoBirbs",
             "symbol": "BRBS",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://i.seadn.io/gcs/files/a980f177f2f1e3a65619f1e08d56eb66.gif?w=500&auto=format"
         },
         {
@@ -240,7 +240,7 @@
             "logo": "https://lh3.googleusercontent.com/j8PFqoTtQQ1LkwnFhBRUwFvG2RVXrLpnmSZ6d5he2yxJnDvN3NcaWIaK9Vnmk5Ip2VhrSNVfQD10MyPyM8R1jjs8z1d6cPtjgcPWcA=s120"
         },
         {
-            "type": "ERC721",
+            "type": "ERC1155",
             "address": "0x850d754a640f640b8d9844518f584ee131a57c9d",
             "name": "Verse Works",
             "symbol": null,
@@ -252,7 +252,7 @@
             "address": "0xd0fabbba5fd95411a07bb2fdcf31295639376937",
             "name": "Cel Mates Crime Reports",
             "symbol": "CRIMES",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://i.seadn.io/gcs/files/2aea07842a761ae153329a21debbda52.jpg?w=500&auto=format"
         },
         {
@@ -300,7 +300,7 @@
             "address": "0xd73acd7f5099fdd910215dbff029185f21ffbcf0",
             "name": "Acrocalypse",
             "symbol": "ACROC",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://lh3.googleusercontent.com/2A1CFc0BZ_4wmXLeAd-2KgxsRGa_KdkvBRex3BC64HoPnLPzBjPz79xmX5JPq6OXEx8yhc38oGIlh1OjwDqvgU0-Tx_s3P9hAdUY5Fk=s120"
         },
         {
@@ -324,7 +324,7 @@
             "address": "0x209e639a0ec166ac7a1a4ba41968fa967db30221",
             "name": "Genuine Undead",
             "symbol": "GU",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://openseauserdata.com/files/1eb8d685d4e404c9b1177dfe14c2c9e0.png"
         },
         {
@@ -380,7 +380,7 @@
             "address": "0xf132f2c8f1eede27070e0850775436a0e6e7268a",
             "name": "Origamasks",
             "symbol": "⭐",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://i.seadn.io/gcs/files/e48cad8a40044d71f87b9dd0fb6ec004.jpg?w=500&auto=format"
         },
         {
@@ -388,7 +388,7 @@
             "address": "0x796a722e6f13489790978f6ecb1a3f83ae063825",
             "name": "CryptoBirdeez",
             "symbol": "DEEZ",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://i.seadn.io/gcs/files/49ba6f7e8bff52ec0724825092f8e470.gif?w=500&auto=format"
         },
         {
