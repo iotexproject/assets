@@ -110,6 +110,9 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		}
 		segments := strings.Split(info.TokenURI, "_")
 		image = data[segments[3]].(string)
+		if strings.HasPrefix(image, "ipfs://") {
+			image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
+		}
 	} else if strings.HasPrefix(info.TokenURI, "ipfs_json_metadata") {
 		client, err := ethclient.Dial(endpoint)
 		if err != nil {

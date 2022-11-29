@@ -107,7 +107,7 @@
             "address": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
             "name": "BoredApeYachtClub",
             "symbol": "BAYC",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://static.nftgo.io/asset/1651210195557.png"
         },
         {
