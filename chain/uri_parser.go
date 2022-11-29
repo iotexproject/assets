@@ -9,6 +9,7 @@ import (
 	"math/big"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 	"time"
 
@@ -163,6 +164,13 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		imageKey := network + "_" + info.Id + "_" + id
 		image = os.Getenv("SITE_URL") + "/image/" + imageKey
 		IMAGE_CACHE.Set(imageKey, imageData.Data, time.Minute*10)
+	} else if strings.HasPrefix(info.TokenURI, "static_replace") {
+		idReg := regexp.MustCompile(`({(.*)})`)
+		params := idReg.FindStringSubmatch(info.Template)
+		if len(params) != 3 {
+			return "", errors.New("error pattern")
+		}
+		image = strings.Replace(info.Template, params[0], fmt.Sprintf(params[2], id), 1)
 	} else if strings.HasPrefix(info.TokenURI, "static") {
 		image = os.Getenv("SITE_URL") + "/image/static/" + info.TokenURI[7:]
 	} else if strings.HasPrefix(info.TokenURI, "ar_json_metadata") {

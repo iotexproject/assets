@@ -19,6 +19,7 @@ type TokenList struct {
 		Name     string `json:"name"`
 		Symbol   string `json:"symbol"`
 		TokenURI string `json:"tokenURI"`
+		Template string `json:"template"`
 		LogoURI  string `json:"logoURI"`
 	} `json:"tokens"`
 }
@@ -34,6 +35,7 @@ type TokenInfo struct {
 	Symbol      string `json:"symbol"`
 	Decimals    uint   `json:"decimals"`
 	Status      string `json:"status"`
+	Template    string `json:"template"`
 }
 
 func (tl *TokenList) ConvertDetialToInfo(id string) (*TokenInfo, error) {
@@ -45,6 +47,7 @@ func (tl *TokenList) ConvertDetialToInfo(id string) (*TokenInfo, error) {
 				Type:     v.Type,
 				Status:   "active",
 				TokenURI: v.TokenURI,
+				Template: v.Template,
 			}, nil
 		}
 	}
@@ -55,7 +58,7 @@ func (tl *TokenList) GetRPC() (string, error) {
 	if strings.Contains(tl.RPC, "${KEY}") {
 		key := os.Getenv("KEY")
 		if key == "" {
-			return "", errors.New("Get rpc key error")
+			return "", errors.New("get rpc key error")
 		}
 		return strings.ReplaceAll(tl.RPC, "${KEY}", key), nil
 	}

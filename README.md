@@ -32,5 +32,6 @@ curl -i http://localhost:3000/token/ethereum/0xb668beb1fa440f6cf2da0399f8c28cab9
 curl -i http://localhost:3000/token/ethereum/0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85/image/53759650996537692076129934293629512578081917330486191194657099486799331644576
 curl -i http://localhost:3000/token/ethereum/0x90350ac498e9e78943f1286053c1985efea0561a/image/1
 curl -i http://localhost:3000/token/ethereum/0xdc85866ddd95fa9b7c856944fab128902ca8c60f/image/1
-curl -i http://localhost:3000/token/ethereum/0x8a90cab2b38dba80c64b7734e58ee1db38b8992e/image/1
+curl -i http://localhost:3000/token/ethereum/0x33fd426905f149f8376e227d0c9d3340aad17af1/image/1
+curl -i http://localhost:3000/token/ethereum/0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb/image/1
 ```

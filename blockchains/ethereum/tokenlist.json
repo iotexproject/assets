@@ -171,7 +171,8 @@
             "address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
             "name": "CRYPTOPUNKS",
             "symbol": "Ͼ",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "static_replace_id",
+            "template": "https://cryptopunks.app/public/images/cryptopunks/punk{%04s}.png",
             "logo": "https://static.nftgo.io/asset/1624854837360.png"
         },
         {
