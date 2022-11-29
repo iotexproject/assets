@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -25,7 +24,7 @@ func main() {
 		if strings.HasPrefix(chain, "/") || strings.HasPrefix(chain, "./") || strings.HasPrefix(chain, "..") {
 			return c.Status(http.StatusBadRequest).SendString("forbid prefix")
 		}
-		data, err := ioutil.ReadFile("./blockchains/" + chain + "/tokenlist.json")
+		data, err := os.ReadFile("./blockchains/" + chain + "/tokenlist.json")
 		if err != nil {
 			return c.Status(http.StatusBadRequest).SendString("unsupported chain")
 		}
@@ -45,7 +44,7 @@ func main() {
 		var data []byte
 
 		if _, err := os.Stat("./blockchains/" + chainName + "/assets/" + address + "/info.json"); os.IsNotExist(err) {
-			data, err = ioutil.ReadFile("./blockchains/" + chainName + "/tokenlist.json")
+			data, err = os.ReadFile("./blockchains/" + chainName + "/tokenlist.json")
 			if err != nil {
 				return c.Status(http.StatusBadRequest).SendString("unsupported chain or token")
 			}
@@ -59,7 +58,7 @@ func main() {
 			}
 			data, _ = json.Marshal(info)
 		} else {
-			data, err = ioutil.ReadFile("./blockchains/" + chainName + "/assets/" + address + "/info.json")
+			data, err = os.ReadFile("./blockchains/" + chainName + "/assets/" + address + "/info.json")
 			if err != nil {
 				return c.Status(http.StatusBadRequest).SendString("unsupported chain or token")
 			}
@@ -80,7 +79,7 @@ func main() {
 		var tokenInfo chain.TokenInfo
 		var tokenList chain.TokenList
 
-		data, err := ioutil.ReadFile("./blockchains/" + chainName + "/tokenlist.json")
+		data, err := os.ReadFile("./blockchains/" + chainName + "/tokenlist.json")
 		if err != nil {
 			return c.Status(http.StatusBadRequest).SendString("unsupported chain or token")
 		}
@@ -95,7 +94,7 @@ func main() {
 			}
 			tokenInfo = *info
 		} else {
-			data, err := ioutil.ReadFile("./blockchains/" + chainName + "/assets/" + address + "/info.json")
+			data, err := os.ReadFile("./blockchains/" + chainName + "/assets/" + address + "/info.json")
 			if err != nil {
 				return c.Status(http.StatusBadRequest).SendString("unsupported chain or token")
 			}
