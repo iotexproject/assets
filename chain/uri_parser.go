@@ -15,7 +15,7 @@ import (
 	"github.com/iotexproject/iotex-address/address"
 )
 
-func ParseNFTImage(info *TokenInfo, id string) (string, error) {
+func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string, error) {
 	if info.Type == "ERC20" {
 		return "", nil
 	}
@@ -58,7 +58,7 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 			return "", fmt.Errorf("can't found %s token metadata", ioAddr.String())
 		}
 	} else if info.TokenURI == "tokenURI" {
-		client, err := ethclient.Dial("https://babel-api.mainnet.iotex.io/")
+		client, err := ethclient.Dial(endpoint)
 		if err != nil {
 			return "", fmt.Errorf("connect rpc error: %v", err)
 		}
@@ -75,7 +75,7 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		}
 		image = string(tokenURL)
 	} else if strings.HasPrefix(info.TokenURI, "http_json_metadata") {
-		client, err := ethclient.Dial("https://babel-api.mainnet.iotex.io/")
+		client, err := ethclient.Dial(endpoint)
 		if err != nil {
 			return "", fmt.Errorf("connect rpc error: %v", err)
 		}
@@ -107,7 +107,7 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		segments := strings.Split(info.TokenURI, "_")
 		image = data[segments[3]].(string)
 	} else if strings.HasPrefix(info.TokenURI, "ipfs_json_metadata") {
-		client, err := ethclient.Dial("https://babel-api.mainnet.iotex.io/")
+		client, err := ethclient.Dial(endpoint)
 		if err != nil {
 			return "", fmt.Errorf("connect rpc error: %v", err)
 		}
@@ -141,6 +141,6 @@ func ParseNFTImage(info *TokenInfo, id string) (string, error) {
 		image = data[segments[3]].(string)
 		image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
 	}
-	CACHE.Set("iotex:"+info.Id+":"+id, image, time.Minute*5)
+	CACHE.Set(network+":"+info.Id+":"+id, image, time.Minute*5)
 	return image, nil
 }

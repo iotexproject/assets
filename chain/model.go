@@ -2,6 +2,7 @@ package chain
 
 import (
 	"errors"
+	"os"
 	"strings"
 )
 
@@ -48,4 +49,15 @@ func (tl *TokenList) ConvertDetialToInfo(id string) (*TokenInfo, error) {
 		}
 	}
 	return nil, errors.New("unsupported token")
+}
+
+func (tl *TokenList) GetRPC() (string, error) {
+	if strings.Contains(tl.RPC, "${KEY}") {
+		key := os.Getenv("KEY")
+		if key == "" {
+			return "", errors.New("Get rpc key error")
+		}
+		return strings.ReplaceAll(tl.RPC, "${KEY}", key), nil
+	}
+	return tl.RPC, nil
 }

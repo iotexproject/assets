@@ -78,16 +78,17 @@ func main() {
 		address := strings.ToLower(c.Params("address"))
 
 		var tokenInfo chain.TokenInfo
+		var tokenList chain.TokenList
+
+		data, err := ioutil.ReadFile("./blockchains/" + chainName + "/tokenlist.json")
+		if err != nil {
+			return c.Status(http.StatusBadRequest).SendString("unsupported chain or token")
+		}
+		if err = json.Unmarshal(data, &tokenList); err != nil {
+			return c.Status(http.StatusInternalServerError).SendString("token info json error")
+		}
 
 		if _, err := os.Stat("./blockchains/" + chainName + "/assets/" + address + "/info.json"); os.IsNotExist(err) {
-			data, err := ioutil.ReadFile("./blockchains/" + chainName + "/tokenlist.json")
-			if err != nil {
-				return c.Status(http.StatusBadRequest).SendString("unsupported chain or token")
-			}
-			var tokenList chain.TokenList
-			if err = json.Unmarshal(data, &tokenList); err != nil {
-				return c.Status(http.StatusInternalServerError).SendString("token info json error")
-			}
 			info, err := tokenList.ConvertDetialToInfo(address)
 			if err != nil {
 				return c.Status(http.StatusBadRequest).SendString("unsupported token")
@@ -103,7 +104,12 @@ func main() {
 			}
 		}
 
-		image, err := chain.ParseNFTImage(&tokenInfo, c.Params("tokenId"))
+		rpc, err := tokenList.GetRPC()
+		if err != nil {
+			log.Printf("parse token image error: %v\n", err)
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		}
+		image, err := chain.ParseNFTImage(chainName, rpc, &tokenInfo, c.Params("tokenId"))
 		if err != nil {
 			log.Printf("parse token image error: %v\n", err)
 			return c.Status(http.StatusInternalServerError).SendString("parse token image error")
