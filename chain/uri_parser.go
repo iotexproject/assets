@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"math/big"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -13,13 +14,14 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/iotexproject/assets/chain/contracts"
 	"github.com/iotexproject/iotex-address/address"
+	"github.com/vincent-petithory/dataurl"
 )
 
 func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string, error) {
 	if info.Type == "ERC20" {
 		return "", nil
 	}
-	ci, found := CACHE.Get("iotex:" + info.Id + ":" + id)
+	ci, found := CACHE.Get(network + ":" + info.Id + ":" + id)
 	if found {
 		return ci.(string), nil
 	}
@@ -140,6 +142,38 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		segments := strings.Split(info.TokenURI, "_")
 		image = data[segments[3]].(string)
 		image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
+	} else if strings.HasPrefix(info.TokenURI, "data_json_metadata") {
+		client, err := ethclient.Dial(endpoint)
+		if err != nil {
+			return "", fmt.Errorf("connect rpc error: %v", err)
+		}
+		contractAddr := common.HexToAddress(info.Id)
+
+		contract, err := contracts.NewERC721(contractAddr, client)
+		if err != nil {
+			return "", fmt.Errorf("construct contract error: %v", err)
+		}
+		tokenId, _ := new(big.Int).SetString(id, 10)
+		metadataURI, err := contract.TokenURI(nil, tokenId)
+		if err != nil {
+			return "", fmt.Errorf("read tokenURI error: %v", err)
+		}
+		metadata, err := dataurl.DecodeString(metadataURI)
+		if err != nil {
+			return "", err
+		}
+		var data map[string]interface{}
+		if err := json.Unmarshal(metadata.Data, &data); err != nil {
+			return "", fmt.Errorf("unmarshal metadata error: %v", err)
+		}
+		imageField := data[info.TokenURI[19:]].(string)
+		imageData, err := dataurl.DecodeString(imageField)
+		if err != nil {
+			return "", err
+		}
+		imageKey := network + "_" + info.Id + "_" + id
+		image = os.Getenv("SITE_URL") + "/image/" + imageKey
+		IMAGE_CACHE.Set(imageKey, imageData.Data, time.Minute*10)
 	}
 	CACHE.Set(network+":"+info.Id+":"+id, image, time.Minute*5)
 	return image, nil

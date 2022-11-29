@@ -117,5 +117,16 @@ func main() {
 		return c.SendString(image)
 	})
 
+	app.Get("image/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		data, ok := chain.IMAGE_CACHE.Get(id)
+		if !ok {
+			log.Printf("fetch data from cache fail")
+			return c.Status(http.StatusInternalServerError).SendString("fetch data from cache fail")
+		}
+		c.Response().Header.Add("Content-Type", "image/svg+xml")
+		return c.Send(data.([]byte))
+	})
+
 	log.Fatal(app.Listen(":3000"))
 }

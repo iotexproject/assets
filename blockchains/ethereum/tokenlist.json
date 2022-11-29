@@ -13,6 +13,30 @@
             "symbol": "BEANZ",
             "tokenURI": "http_json_metadata_image",
             "logoURI": "https://static.nftgo.io/asset/1650705191193.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xbd3531da5cf5857e7cfaa92426877b022e612cf8",
+            "name": "PudgyPenguins",
+            "symbol": "PPG",
+            "tokenURI": "http_json_metadata_image",
+            "logoURI": "https://static.nftgo.io/asset/1661152546740.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x942bc2d3e7a589fe5bd4a5c6ef9727dfd82f5c8a",
+            "name": "Art Blocks Explorations",
+            "symbol": "EXPLORE",
+            "tokenURI": "http_json_metadata_image",
+            "logoURI": "https://i.seadn.io/gcs/files/01de134db029be955aa892ea066c085f.png?w=500&auto=format"
+        },
+        {
+            "type": "ERC721",
+            "address": "0xb668beb1fa440f6cf2da0399f8c28cab993bdd65",
+            "name": "Neo Tokyo Citizen",
+            "symbol": "NTCTZN",
+            "tokenURI": "data_json_metadata_image_data",
+            "logoURI": "https://lh3.googleusercontent.com/fmy3rZQgswpkd5TV3QWl66JG3SvIPGhWDtHr3dKKi15EAUb96k-lKFsi0amKXyJv9Lh7xnDBHG0Btq--bIorfDfL0dJ39RVQYofU=s120"
         }
     ]
 }

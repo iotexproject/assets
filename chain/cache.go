@@ -7,3 +7,4 @@ import (
 )
 
 var CACHE = cache.New(24*time.Hour, 1*time.Hour)
+var IMAGE_CACHE = cache.New(24*time.Hour, 1*time.Hour)
