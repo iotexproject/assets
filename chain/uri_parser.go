@@ -176,6 +176,40 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		IMAGE_CACHE.Set(imageKey, imageData.Data, time.Minute*10)
 	} else if strings.HasPrefix(info.TokenURI, "static") {
 		image = os.Getenv("SITE_URL") + "/image/static/" + info.TokenURI[7:]
+	} else if strings.HasPrefix(info.TokenURI, "ar_json_metadata") {
+		client, err := ethclient.Dial(endpoint)
+		if err != nil {
+			return "", fmt.Errorf("connect rpc error: %v", err)
+		}
+		contractAddr := common.HexToAddress(info.Id)
+
+		contract, err := contracts.NewERC721(contractAddr, client)
+		if err != nil {
+			return "", fmt.Errorf("construct contract error: %v", err)
+		}
+		tokenId, _ := new(big.Int).SetString(id, 10)
+		metadataURL, err := contract.TokenURI(nil, tokenId)
+		if err != nil {
+			return "", fmt.Errorf("read tokenURI error: %v", err)
+		}
+		metadataURL = strings.Replace(metadataURL, "ar://", "https://arweave.net/", 1)
+		resp, err := http.Get(metadataURL)
+		if err != nil {
+			return "", fmt.Errorf("fetch metadata error: %v", err)
+		}
+		defer resp.Body.Close()
+		metadata, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return "", fmt.Errorf("read metadata body error: %v", err)
+		}
+
+		var data map[string]interface{}
+		if err := json.Unmarshal(metadata, &data); err != nil {
+			return "", fmt.Errorf("unmarshal metadata error: %v", err)
+		}
+		segments := strings.Split(info.TokenURI, "_")
+		image = data[segments[3]].(string)
+		image = strings.Replace(image, "ar://", "https://arweave.net/", 1)
 	}
 	CACHE.Set(network+":"+info.Id+":"+id, image, time.Minute*5)
 	return image, nil
