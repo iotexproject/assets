@@ -147,7 +147,7 @@
             "address": "0xba30e5f9bb24caa003e9f2f0497ad287fdf95623",
             "name": "BoredApeKennelClub",
             "symbol": "BAKC",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://lh3.googleusercontent.com/l1wZXP2hHFUQ3turU5VQ9PpgVVasyQ79-ChvCgjoU5xKkBA50OGoJqKZeMOR-qLrzqwIfd1HpYmiv23JWm0EZ14owiPYaufqzmj1=s120"
         },
         {
@@ -155,11 +155,12 @@
             "address": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e",
             "name": "Doodles",
             "symbol": "DOODLE",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://lh3.googleusercontent.com/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ=s130"
         },
         {
-            "type": "ERC721",
+            "type": "ERC1155",
+            "address": "0x33fd426905f149f8376e227d0c9d3340aad17af1",
             "name": null,
             "symbol": null,
             "tokenURI": "http_json_metadata_image",

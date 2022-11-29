@@ -3,8 +3,9 @@ package chain
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"math/big"
 	"net/http"
 	"os"
@@ -17,6 +18,33 @@ import (
 	"github.com/iotexproject/iotex-address/address"
 	"github.com/vincent-petithory/dataurl"
 )
+
+func fetchTokenURI(endpoint string, info *TokenInfo, id string) (string, error) {
+	client, err := ethclient.Dial(endpoint)
+	if err != nil {
+		return "", fmt.Errorf("connect rpc error: %v", err)
+	}
+	contractAddr := common.HexToAddress(info.Id)
+
+	if info.Type == "ERC721" {
+		contract, err := contracts.NewERC721(contractAddr, client)
+		if err != nil {
+			return "", fmt.Errorf("construct contract error: %v", err)
+		}
+		tokenId, _ := new(big.Int).SetString(id, 10)
+		return contract.TokenURI(nil, tokenId)
+	}
+	if info.Type == "ERC1155" {
+
+		contract, err := contracts.NewERC1155(contractAddr, client)
+		if err != nil {
+			return "", fmt.Errorf("construct contract error: %v", err)
+		}
+		tokenId, _ := new(big.Int).SetString(id, 10)
+		return contract.Uri(nil, tokenId)
+	}
+	return "", errors.New("unsupported type")
+}
 
 func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string, error) {
 	if info.Type == "ERC20" {
@@ -33,7 +61,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 			return "", fmt.Errorf("fetch iotex token metadata error: %v", err)
 		}
 		defer resp.Body.Close()
-		metadata, err := ioutil.ReadAll(resp.Body)
+		metadata, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return "", fmt.Errorf("read iotex token metadata body error: %v", err)
 		}
@@ -61,35 +89,13 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 			return "", fmt.Errorf("can't found %s token metadata", ioAddr.String())
 		}
 	} else if info.TokenURI == "tokenURI" {
-		client, err := ethclient.Dial(endpoint)
-		if err != nil {
-			return "", fmt.Errorf("connect rpc error: %v", err)
-		}
-		contractAddr := common.HexToAddress(info.Id)
-
-		contract, err := contracts.NewERC721(contractAddr, client)
-		if err != nil {
-			return "", fmt.Errorf("construct contract error: %v", err)
-		}
-		tokenId, _ := new(big.Int).SetString(id, 10)
-		tokenURL, err := contract.TokenURI(nil, tokenId)
+		tokenURL, err := fetchTokenURI(endpoint, info, id)
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
 		image = string(tokenURL)
 	} else if strings.HasPrefix(info.TokenURI, "http_json_metadata") {
-		client, err := ethclient.Dial(endpoint)
-		if err != nil {
-			return "", fmt.Errorf("connect rpc error: %v", err)
-		}
-		contractAddr := common.HexToAddress(info.Id)
-
-		contract, err := contracts.NewERC721(contractAddr, client)
-		if err != nil {
-			return "", fmt.Errorf("construct contract error: %v", err)
-		}
-		tokenId, _ := new(big.Int).SetString(id, 10)
-		metadataURL, err := contract.TokenURI(nil, tokenId)
+		metadataURL, err := fetchTokenURI(endpoint, info, id)
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
@@ -98,7 +104,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 			return "", fmt.Errorf("fetch metadata error: %v", err)
 		}
 		defer resp.Body.Close()
-		metadata, err := ioutil.ReadAll(resp.Body)
+		metadata, err := io.ReadAll(resp.Body)
 		metadata = bytes.TrimPrefix(metadata, []byte("\xef\xbb\xbf"))
 		if err != nil {
 			return "", fmt.Errorf("read metadata body error: %v", err)
@@ -114,18 +120,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 			image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
 		}
 	} else if strings.HasPrefix(info.TokenURI, "ipfs_json_metadata") {
-		client, err := ethclient.Dial(endpoint)
-		if err != nil {
-			return "", fmt.Errorf("connect rpc error: %v", err)
-		}
-		contractAddr := common.HexToAddress(info.Id)
-
-		contract, err := contracts.NewERC721(contractAddr, client)
-		if err != nil {
-			return "", fmt.Errorf("construct contract error: %v", err)
-		}
-		tokenId, _ := new(big.Int).SetString(id, 10)
-		metadataURL, err := contract.TokenURI(nil, tokenId)
+		metadataURL, err := fetchTokenURI(endpoint, info, id)
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
@@ -135,31 +130,20 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 			return "", fmt.Errorf("fetch metadata error: %v", err)
 		}
 		defer resp.Body.Close()
-		metadata, err := ioutil.ReadAll(resp.Body)
+		metadata, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return "", fmt.Errorf("read metadata body error: %v", err)
 		}
 
 		var data map[string]interface{}
-		if err := json.Unmarshal(metadata, &data); err != nil {
+		if err := json.Unmarshal([]byte(string(metadata)), &data); err != nil {
 			return "", fmt.Errorf("unmarshal metadata error: %v", err)
 		}
 		segments := strings.Split(info.TokenURI, "_")
 		image = data[segments[3]].(string)
 		image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
 	} else if strings.HasPrefix(info.TokenURI, "data_json_metadata") {
-		client, err := ethclient.Dial(endpoint)
-		if err != nil {
-			return "", fmt.Errorf("connect rpc error: %v", err)
-		}
-		contractAddr := common.HexToAddress(info.Id)
-
-		contract, err := contracts.NewERC721(contractAddr, client)
-		if err != nil {
-			return "", fmt.Errorf("construct contract error: %v", err)
-		}
-		tokenId, _ := new(big.Int).SetString(id, 10)
-		metadataURI, err := contract.TokenURI(nil, tokenId)
+		metadataURI, err := fetchTokenURI(endpoint, info, id)
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
@@ -182,18 +166,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 	} else if strings.HasPrefix(info.TokenURI, "static") {
 		image = os.Getenv("SITE_URL") + "/image/static/" + info.TokenURI[7:]
 	} else if strings.HasPrefix(info.TokenURI, "ar_json_metadata") {
-		client, err := ethclient.Dial(endpoint)
-		if err != nil {
-			return "", fmt.Errorf("connect rpc error: %v", err)
-		}
-		contractAddr := common.HexToAddress(info.Id)
-
-		contract, err := contracts.NewERC721(contractAddr, client)
-		if err != nil {
-			return "", fmt.Errorf("construct contract error: %v", err)
-		}
-		tokenId, _ := new(big.Int).SetString(id, 10)
-		metadataURL, err := contract.TokenURI(nil, tokenId)
+		metadataURL, err := fetchTokenURI(endpoint, info, id)
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
@@ -203,7 +176,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 			return "", fmt.Errorf("fetch metadata error: %v", err)
 		}
 		defer resp.Body.Close()
-		metadata, err := ioutil.ReadAll(resp.Body)
+		metadata, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return "", fmt.Errorf("read metadata body error: %v", err)
 		}
