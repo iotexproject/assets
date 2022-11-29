@@ -126,6 +126,10 @@ func main() {
 		c.Response().Header.Add("Content-Type", "image/svg+xml")
 		return c.Send(data.([]byte))
 	})
+	app.Get("image/static/:file", func(c *fiber.Ctx) error {
+		file := c.Params("file")
+		return c.SendFile("static/" + file)
+	})
 
 	log.Fatal(app.Listen(":3000"))
 }

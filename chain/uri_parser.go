@@ -174,6 +174,8 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		imageKey := network + "_" + info.Id + "_" + id
 		image = os.Getenv("SITE_URL") + "/image/" + imageKey
 		IMAGE_CACHE.Set(imageKey, imageData.Data, time.Minute*10)
+	} else if strings.HasPrefix(info.TokenURI, "static") {
+		image = os.Getenv("SITE_URL") + "/image/static/" + info.TokenURI[7:]
 	}
 	CACHE.Set(network+":"+info.Id+":"+id, image, time.Minute*5)
 	return image, nil
