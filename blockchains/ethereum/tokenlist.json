@@ -48,14 +48,6 @@
         },
         {
             "type": "ERC721",
-            "address": "0x99a9b7c1116f9ceeb1652de04d5969cce509b069",
-            "name": "Art Blocks",
-            "symbol": "BLOCKS",
-            "tokenURI": "http_json_metadata_image",
-            "logo": "https://lh3.googleusercontent.com/GwnosrkaneKGEkWySxvTSzZ5bEUjWkRuQzLSNfrpgy2-gxYjoR3m5PohLT9Fzy0p1tohajZ1g-LFfF_ZLnS1GqlPNHPUaKUbDhbf=s130"
-        },
-        {
-            "type": "ERC721",
             "address": "0x477f885f6333317f5b2810ecc8afadc7d5b69dd2",
             "name": "YuGiYn",
             "symbol": "YGY",
@@ -83,7 +75,7 @@
             "address": "0xc99c679c50033bbc5321eb88752e89a93e9e83c5",
             "name": "KILLABEARS",
             "symbol": "KILLABEARS",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://lh3.googleusercontent.com/jsfhye5yrhOSusDCKXquKoMQbYs-B8Nm3V2B5fZB-Hee9ag9MXwm8scvd8wuSpp8TE49oXBcWr4XMCRfzq1OA3p59s59hn_9bCzURA=s120"
         },
         {
@@ -91,7 +83,7 @@
             "address": "0xef1a89cbfabe59397ffda11fc5df293e9bc5db90",
             "name": "Based Ghouls",
             "symbol": "GHLS",
-            "tokenURI": "http_json_metadata_image",
+            "tokenURI": "ipfs_json_metadata_image",
             "logo": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fe6qZseLVGyme9kBypbd4BNHxgHZ1N8cp4vlMUvjxFzM-_bvAUpxAhSFlVqBxCLz6t19J2H2h75uTrTaH7G9S-_20E2MyXUDLImBz%3Ds10000?fit=max&h=120&w=120&auto=format&s=2f9c3cf124ae42082a82917ab98bf117"
         },
         {

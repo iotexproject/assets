@@ -1,6 +1,7 @@
 package chain
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -98,6 +99,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		}
 		defer resp.Body.Close()
 		metadata, err := ioutil.ReadAll(resp.Body)
+		metadata = bytes.TrimPrefix(metadata, []byte("\xef\xbb\xbf"))
 		if err != nil {
 			return "", fmt.Errorf("read metadata body error: %v", err)
 		}
