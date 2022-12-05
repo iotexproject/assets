@@ -12,6 +12,10 @@ import (
 )
 
 func main() {
+	chains := make(map[string]string)
+	chains["1"] = "ethereum"
+	chains["4689"] = "iotex"
+
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
@@ -23,6 +27,9 @@ func main() {
 		chain := c.Params("chain")
 		if strings.HasPrefix(chain, "/") || strings.HasPrefix(chain, "./") || strings.HasPrefix(chain, "..") {
 			return c.Status(http.StatusBadRequest).SendString("forbid prefix")
+		}
+		if t, ok := chains[chain]; ok {
+			chain = t
 		}
 		data, err := os.ReadFile("./blockchains/" + chain + "/tokenlist.json")
 		if err != nil {
@@ -38,6 +45,9 @@ func main() {
 		chainName := c.Params("chain")
 		if strings.HasPrefix(chainName, "/") || strings.HasPrefix(chainName, "./") || strings.HasPrefix(chainName, "..") {
 			return c.Status(http.StatusBadRequest).SendString("forbid prefix")
+		}
+		if t, ok := chains[chainName]; ok {
+			chainName = t
 		}
 		address := strings.ToLower(c.Params("address"))
 
@@ -73,6 +83,9 @@ func main() {
 		chainName := c.Params("chain")
 		if strings.HasPrefix(chainName, "/") || strings.HasPrefix(chainName, "./") || strings.HasPrefix(chainName, "..") {
 			return c.Status(http.StatusBadRequest).SendString("forbid prefix")
+		}
+		if t, ok := chains[chainName]; ok {
+			chainName = t
 		}
 		address := strings.ToLower(c.Params("address"))
 
