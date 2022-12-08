@@ -5,10 +5,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/iotexproject/assets/chain"
+	"github.com/iotexproject/assets/own"
 )
 
 func main() {
@@ -142,6 +144,34 @@ func main() {
 	app.Get("image/static/:file", func(c *fiber.Ctx) error {
 		file := c.Params("file")
 		return c.SendFile("static/" + file)
+	})
+
+	app.Get("/account/:chain/own/:account", func(c *fiber.Ctx) error {
+		chainName := c.Params("chain")
+		if strings.HasPrefix(chainName, "/") || strings.HasPrefix(chainName, "./") || strings.HasPrefix(chainName, "..") {
+			return c.Status(http.StatusBadRequest).SendString("forbid prefix")
+		}
+		if t, ok := chains[chainName]; ok {
+			chainName = t
+		}
+		account := c.Params("account")
+		skip, _ := strconv.Atoi(c.Query("skip", "0"))
+		first, _ := strconv.Atoi(c.Query("first", "10"))
+		var fetcher *own.SubgraphFetcher
+		if chainName == "ethereum" {
+			fetcher = own.NewEthereumFetcher()
+		} else if chainName == "iotex" {
+			fetcher = own.NewIoTeXFetcher()
+		} else {
+			return c.Status(http.StatusInternalServerError).SendString("chain does not supported")
+		}
+
+		data, err := fetcher.FetchOwnTokens(account, skip, first)
+		if err != nil {
+			log.Printf("fetch own tokens error: %v\n", err)
+			return c.Status(http.StatusInternalServerError).SendString("fetch own tokens error")
+		}
+		return c.JSON(data)
 	})
 
 	log.Fatal(app.Listen(":3000"))

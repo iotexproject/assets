@@ -59,7 +59,8 @@
             "address": "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
             "name": null,
             "symbol": null,
-            "tokenURI": "static_ens.svg",
+            "tokenURI": "static_replace_id",
+            "template": "https://metadata.ens.domains/mainnet/0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85/{%s}/image",
             "logo": "https://lh3.googleusercontent.com/0cOqWoYA7xL9CkUjGlxsjreSYBdrUBE0c6EO1COG4XE8UeP-Z30ckqUNiL872zHQHQU5MUNMNhfDpyXIP17hRSC5HQ=s130"
         },
         {

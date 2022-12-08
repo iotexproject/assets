@@ -38,3 +38,10 @@ curl -i http://localhost:3000/token/ethereum/0xb47e3cd837ddf8e4c57f05d70ab865de6
 curl -i http://localhost:3000/token/ethereum/0x82c7a8f707110f5fbb16184a5933e9f78a34c6ab/image/5986037213260671
 curl -i http://localhost:3000/token/ethereum/0x394e3d3044fc89fcdd966d3cb35ac0b32b0cda91/image/1
 ```
+
+## Own Tokens
+
+```
+curl -i http://localhost:3000/account/1/own/0x0000000000000000000000000000000000000001?skip=0&first=10
+curl -i http://localhost:3000/account/4689/own/0x4309b22dfe0d062f54763e1a9aec74a636fa3276?skip=0&first=10
+```
