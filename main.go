@@ -157,7 +157,7 @@ func main() {
 		account := c.Params("account")
 		skip, _ := strconv.Atoi(c.Query("skip", "0"))
 		first, _ := strconv.Atoi(c.Query("first", "10"))
-		var fetcher *own.SubgraphFetcher
+		var fetcher own.Fetcher
 		if chainName == "ethereum" {
 			fetcher = own.NewEthereumFetcher()
 		} else if chainName == "iotex" {

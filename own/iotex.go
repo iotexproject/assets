@@ -6,30 +6,24 @@ import (
 	"github.com/hasura/go-graphql-client"
 )
 
-type OwnToken struct {
-	Contract string `json:"contract"`
-	TokenId  string `json:"tokenId"`
-}
-
-type SubgraphFetcher struct {
+type IoTeXFetcher struct {
 	client *graphql.Client
 }
 
-func NewEthereumFetcher() *SubgraphFetcher {
-	client := graphql.NewClient("https://api.thegraph.com/subgraphs/name/wighawag/eip721-subgraph", nil)
-	return &SubgraphFetcher{client: client}
-}
-
-func NewIoTeXFetcher() *SubgraphFetcher {
+func NewIoTeXFetcher() *IoTeXFetcher {
 	client := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/ququzone/eip721", nil)
-	return &SubgraphFetcher{client: client}
+	return &IoTeXFetcher{client: client}
 }
 
-func (f *SubgraphFetcher) FetchOwnTokens(account string, skip int, first int) ([]OwnToken, error) {
+func (f *IoTeXFetcher) FetchOwnTokens(account string, skip int, first int) ([]OwnToken, error) {
 	var q struct {
 		Tokens []struct {
-			Id      string
-			TokenID string `graphql:"tokenID"`
+			Id         string
+			TokenID    string `graphql:"tokenID"`
+			Collection struct {
+				Name   string
+				Symbol string
+			}
 		} `graphql:"tokens(skip: $skip first: $first where: {owner: $owner})"`
 	}
 
@@ -49,6 +43,8 @@ func (f *SubgraphFetcher) FetchOwnTokens(account string, skip int, first int) ([
 		result[i] = OwnToken{
 			Contract: token.Id[:42],
 			TokenId:  token.TokenID,
+			Name:     token.Collection.Name,
+			Symbol:   token.Collection.Symbol,
 		}
 	}
 
