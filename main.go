@@ -105,7 +105,12 @@ func main() {
 		if _, err := os.Stat("./blockchains/" + chainName + "/assets/" + address + "/info.json"); os.IsNotExist(err) {
 			info, err := tokenList.ConvertDetialToInfo(address)
 			if err != nil {
-				return c.Status(http.StatusBadRequest).SendString("unsupported token")
+				info = &chain.TokenInfo{
+					Id:       address,
+					TokenURI: "dynamic",
+				}
+				// process dynamic
+				// return c.Status(http.StatusBadRequest).SendString("unsupported token")
 			}
 			tokenInfo = *info
 		} else {

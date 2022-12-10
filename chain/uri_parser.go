@@ -27,24 +27,21 @@ func fetchTokenURI(endpoint string, info *TokenInfo, id string) (string, error) 
 	}
 	contractAddr := common.HexToAddress(info.Id)
 
-	if info.Type == "ERC721" {
-		contract, err := contracts.NewERC721(contractAddr, client)
-		if err != nil {
-			return "", fmt.Errorf("construct contract error: %v", err)
-		}
-		tokenId, _ := new(big.Int).SetString(id, 10)
-		return contract.TokenURI(nil, tokenId)
+	contract721, err := contracts.NewERC721(contractAddr, client)
+	if err != nil {
+		return "", fmt.Errorf("construct contract error: %v", err)
 	}
-	if info.Type == "ERC1155" {
+	tokenId, _ := new(big.Int).SetString(id, 10)
+	tokenURI, err := contract721.TokenURI(nil, tokenId)
+	if err == nil {
+		return tokenURI, nil
+	}
 
-		contract, err := contracts.NewERC1155(contractAddr, client)
-		if err != nil {
-			return "", fmt.Errorf("construct contract error: %v", err)
-		}
-		tokenId, _ := new(big.Int).SetString(id, 10)
-		return contract.Uri(nil, tokenId)
+	contract1155, err := contracts.NewERC1155(contractAddr, client)
+	if err != nil {
+		return "", fmt.Errorf("construct contract error: %v", err)
 	}
-	return "", errors.New("unsupported type")
+	return contract1155.Uri(nil, tokenId)
 }
 
 func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string, error) {
@@ -100,25 +97,10 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
-		resp, err := http.Get(metadataURL)
-		if err != nil {
-			return "", fmt.Errorf("fetch metadata error: %v", err)
-		}
-		defer resp.Body.Close()
-		metadata, err := io.ReadAll(resp.Body)
-		metadata = bytes.TrimPrefix(metadata, []byte("\xef\xbb\xbf"))
-		if err != nil {
-			return "", fmt.Errorf("read metadata body error: %v", err)
-		}
-
-		var data map[string]interface{}
-		if err := json.Unmarshal([]byte(string(metadata)), &data); err != nil {
-			return "", fmt.Errorf("unmarshal metadata error: %v", err)
-		}
 		segments := strings.Split(info.TokenURI, "_")
-		image = data[segments[3]].(string)
-		if strings.HasPrefix(image, "ipfs://") {
-			image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
+		image, err = parseHttpJsonMetadata(metadataURL, segments[3])
+		if err != nil {
+			return "", fmt.Errorf("parse image error: %v", err)
 		}
 	} else if strings.HasPrefix(info.TokenURI, "ipfs_json_metadata") {
 		metadataURL, err := fetchTokenURI(endpoint, info, id)
@@ -148,22 +130,10 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
-		metadata, err := dataurl.DecodeString(metadataURI)
+		image, err = parseDataJsonMetedata(network, info.Id, metadataURI, info.TokenURI[19:], id)
 		if err != nil {
-			return "", err
+			return "", fmt.Errorf("parse image error: %v", err)
 		}
-		var data map[string]interface{}
-		if err := json.Unmarshal(metadata.Data, &data); err != nil {
-			return "", fmt.Errorf("unmarshal metadata error: %v", err)
-		}
-		imageField := data[info.TokenURI[19:]].(string)
-		imageData, err := dataurl.DecodeString(imageField)
-		if err != nil {
-			return "", err
-		}
-		imageKey := network + "_" + info.Id + "_" + id
-		image = os.Getenv("SITE_URL") + "/image/" + imageKey
-		IMAGE_CACHE.Set(imageKey, imageData.Data, time.Minute*10)
 	} else if strings.HasPrefix(info.TokenURI, "static_replace") {
 		idReg := regexp.MustCompile(`({(.*)})`)
 		params := idReg.FindStringSubmatch(info.Template)
@@ -178,25 +148,114 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		if err != nil {
 			return "", fmt.Errorf("read tokenURI error: %v", err)
 		}
-		metadataURL = strings.Replace(metadataURL, "ar://", "https://arweave.net/", 1)
-		resp, err := http.Get(metadataURL)
-		if err != nil {
-			return "", fmt.Errorf("fetch metadata error: %v", err)
-		}
-		defer resp.Body.Close()
-		metadata, err := io.ReadAll(resp.Body)
-		if err != nil {
-			return "", fmt.Errorf("read metadata body error: %v", err)
-		}
-
-		var data map[string]interface{}
-		if err := json.Unmarshal(metadata, &data); err != nil {
-			return "", fmt.Errorf("unmarshal metadata error: %v", err)
-		}
 		segments := strings.Split(info.TokenURI, "_")
-		image = data[segments[3]].(string)
-		image = strings.Replace(image, "ar://", "https://arweave.net/", 1)
+		image, err = parseArJsonMetadata(metadataURL, segments[3])
+		if err != nil {
+			return "", fmt.Errorf("parse image error: %v", err)
+		}
+	} else {
+		tokenURL, err := fetchTokenURI(endpoint, info, id)
+		if err != nil {
+			return "", fmt.Errorf("read tokenURI error: %v", err)
+		}
+		if strings.HasPrefix(tokenURL, "data:application/json;base64,") {
+			image, err = parseDataJsonMetedata(network, info.Id, tokenURL, "image", id)
+			if err != nil {
+				return "", fmt.Errorf("parse image error")
+			}
+		} else if strings.HasPrefix(tokenURL, "http://") || strings.HasPrefix(tokenURL, "https://") {
+			image, err = parseHttpJsonMetadata(tokenURL, "image")
+			if err != nil {
+				return "", fmt.Errorf("parse image error")
+			}
+		} else if strings.HasPrefix(tokenURL, "ipfs://") {
+			tokenURL = strings.Replace(tokenURL, "ipfs://", "https://ipfs.io/ipfs/", 1)
+			image, err = parseHttpJsonMetadata(tokenURL, "image")
+			if err != nil {
+				return "", fmt.Errorf("parse image error")
+			}
+		} else if strings.HasPrefix(tokenURL, "ipfs://") {
+			image, err = parseArJsonMetadata(tokenURL, "image")
+			if err != nil {
+				return "", fmt.Errorf("parse image error")
+			}
+		} else {
+			return "", fmt.Errorf("unsupported token")
+		}
 	}
 	CACHE.Set(network+":"+info.Id+":"+id, image, time.Minute*5)
+	return image, nil
+}
+
+func parseDataJsonMetedata(network, address, metadataURI, imageFieldName, id string) (string, error) {
+	metadata, err := dataurl.DecodeString(metadataURI)
+	if err != nil {
+		return "", err
+	}
+	var data map[string]interface{}
+	if err := json.Unmarshal(metadata.Data, &data); err != nil {
+		return "", fmt.Errorf("unmarshal metadata error: %v", err)
+	}
+	imageField := data[imageFieldName].(string)
+	imageData, err := dataurl.DecodeString(imageField)
+	if err != nil {
+		return "", err
+	}
+	imageKey := network + "_" + address + "_" + id
+	image := os.Getenv("SITE_URL") + "/image/" + imageKey
+	IMAGE_CACHE.Set(imageKey, imageData.Data, time.Minute*10)
+
+	return image, nil
+}
+
+func parseHttpJsonMetadata(tokenURI, imageFieldName string) (string, error) {
+	resp, err := http.Get(tokenURI)
+	if err != nil {
+		return "", fmt.Errorf("fetch metadata error: %v", err)
+	}
+	defer resp.Body.Close()
+	metadata, err := io.ReadAll(resp.Body)
+	metadata = bytes.TrimPrefix(metadata, []byte("\xef\xbb\xbf"))
+	if err != nil {
+		return "", fmt.Errorf("read metadata body error: %v", err)
+	}
+
+	var data map[string]interface{}
+	if err := json.Unmarshal([]byte(string(metadata)), &data); err != nil {
+		return "", fmt.Errorf("unmarshal metadata error: %v", err)
+	}
+	image := data[imageFieldName].(string)
+	if strings.HasPrefix(image, "ipfs://") {
+		image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
+	}
+	if strings.HasPrefix(image, "ar://") {
+		image = strings.Replace(image, "ar://", "https://arweave.net/", 1)
+	}
+	return image, nil
+}
+
+func parseArJsonMetadata(tokenURI, imageFieldName string) (string, error) {
+	tokenURI = strings.Replace(tokenURI, "ar://", "https://arweave.net/", 1)
+	resp, err := http.Get(tokenURI)
+	if err != nil {
+		return "", fmt.Errorf("fetch metadata error: %v", err)
+	}
+	defer resp.Body.Close()
+	metadata, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("read metadata body error: %v", err)
+	}
+
+	var data map[string]interface{}
+	if err := json.Unmarshal(metadata, &data); err != nil {
+		return "", fmt.Errorf("unmarshal metadata error: %v", err)
+	}
+	image := data[imageFieldName].(string)
+	if strings.HasPrefix(image, "ipfs://") {
+		image = strings.Replace(image, "ipfs://", "https://ipfs.io/ipfs/", 1)
+	}
+	if strings.HasPrefix(image, "ar://") {
+		image = strings.Replace(image, "ar://", "https://arweave.net/", 1)
+	}
 	return image, nil
 }
