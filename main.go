@@ -159,6 +159,16 @@ func main() {
 		if t, ok := chains[chainName]; ok {
 			chainName = t
 		}
+
+		var tokenList chain.TokenList
+		tokenData, err := os.ReadFile("./blockchains/" + chainName + "/tokenlist.json")
+		if err != nil {
+			return c.Status(http.StatusBadRequest).SendString("unsupported chain or token")
+		}
+		if err = json.Unmarshal(tokenData, &tokenList); err != nil {
+			return c.Status(http.StatusInternalServerError).SendString("token info json error")
+		}
+
 		account := c.Params("account")
 		skip, _ := strconv.Atoi(c.Query("skip", "0"))
 		first, _ := strconv.Atoi(c.Query("first", "10"))
@@ -176,6 +186,17 @@ func main() {
 			log.Printf("fetch own tokens error: %v\n", err)
 			return c.Status(http.StatusInternalServerError).SendString("fetch own tokens error")
 		}
+
+		// process name and symbol with tokenlist
+		for i, token := range data {
+			for _, t := range tokenList.Tokens {
+				if strings.EqualFold(token.Contract, t.Address) {
+					data[i].Name = t.Name
+					data[i].Symbol = t.Symbol
+				}
+			}
+		}
+
 		return c.JSON(data)
 	})
 
