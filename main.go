@@ -193,6 +193,7 @@ func main() {
 				if strings.EqualFold(token.Contract, t.Address) {
 					data[i].Name = t.Name
 					data[i].Symbol = t.Symbol
+					break
 				}
 			}
 		}
