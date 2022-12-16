@@ -8,13 +8,15 @@ import (
 
 type OwnToken struct {
 	Contract string `json:"contract"`
+	Type     string `json:"type"`
 	TokenId  string `json:"tokenId"`
 	Name     string `json:"name"`
 	Symbol   string `json:"symbol"`
+	Amount   string `json:"amount"`
 }
 
 type Fetcher interface {
-	FetchOwnTokens(account string, skip int, first int) ([]OwnToken, error)
+	FetchOwnTokens(account string, tokenType string, skip int, first int) ([]OwnToken, error)
 }
 
 type EthereumFetcher struct {
@@ -26,7 +28,7 @@ func NewEthereumFetcher() *EthereumFetcher {
 	return &EthereumFetcher{client: client}
 }
 
-func (f *EthereumFetcher) FetchOwnTokens(account string, skip int, first int) ([]OwnToken, error) {
+func (f *EthereumFetcher) FetchOwnTokens(account string, tokenType string, skip int, first int) ([]OwnToken, error) {
 	var q struct {
 		Tokens []struct {
 			Id       string
@@ -53,6 +55,7 @@ func (f *EthereumFetcher) FetchOwnTokens(account string, skip int, first int) ([
 	for i, token := range q.Tokens {
 		result[i] = OwnToken{
 			Contract: token.Id[:42],
+			Type:     tokenType,
 			TokenId:  token.TokenID,
 			Name:     token.Contract.Name,
 			Symbol:   token.Contract.Symbol,

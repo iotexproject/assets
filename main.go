@@ -170,6 +170,7 @@ func main() {
 		}
 
 		account := c.Params("account")
+		tokenType := c.Query("type", "721")
 		skip, _ := strconv.Atoi(c.Query("skip", "0"))
 		first, _ := strconv.Atoi(c.Query("first", "10"))
 		var fetcher own.Fetcher
@@ -181,7 +182,7 @@ func main() {
 			return c.Status(http.StatusInternalServerError).SendString("chain does not supported")
 		}
 
-		data, err := fetcher.FetchOwnTokens(account, skip, first)
+		data, err := fetcher.FetchOwnTokens(account, tokenType, skip, first)
 		if err != nil {
 			log.Printf("fetch own tokens error: %v\n", err)
 			return c.Status(http.StatusInternalServerError).SendString("fetch own tokens error")
