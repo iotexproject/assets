@@ -97,7 +97,7 @@ func (f *IoTeXFetcher) fetch1155(account string, skip int, first int) ([]OwnToke
 					Symbol string
 				}
 			}
-		} `graphql:"tokenOwners(skip: $skip first: $first where: {owner: $owner})"`
+		} `graphql:"tokenOwners(skip: $skip first: $first where: {owner: $owner amount_gt: 0})"`
 	}
 
 	variables := map[string]interface{}{
