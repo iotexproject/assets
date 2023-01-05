@@ -17,6 +17,7 @@ func main() {
 	chains := make(map[string]string)
 	chains["1"] = "ethereum"
 	chains["4689"] = "iotex"
+	chains["4690"] = "iotex_test"
 
 	app := fiber.New()
 
@@ -178,6 +179,8 @@ func main() {
 			fetcher = own.NewEthereumFetcher()
 		} else if chainName == "iotex" {
 			fetcher = own.NewIoTeXFetcher()
+		} else if chainName == "iotex_test" {
+			fetcher = own.NewIoTeXTestnetFetcher()
 		} else {
 			return c.Status(http.StatusInternalServerError).SendString("chain does not supported")
 		}

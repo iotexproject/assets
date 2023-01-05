@@ -1,0 +1,10 @@
+{
+    "name": "IoTeX Wallet: IoTeX Testnet",
+    "logoURI": "",
+    "timestamp": "2021-10-08T10:12:10.559Z",
+    "chainId": 4690,
+    "rpc": "https://babel-api.testnet.iotex.io/",
+    "symbol": "IOTX",
+    "tokens": [
+    ]
+}
