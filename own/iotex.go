@@ -25,7 +25,7 @@ func NewIoTeXFetcher() *IoTeXFetcher {
 
 func NewIoTeXTestnetFetcher() *IoTeXFetcher {
 	client721 := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/looksrare/eip721", nil)
-	client1155 := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/looksrare/eip1155", nil)
+	client1155 := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/testnet/eip1155", nil)
 	return &IoTeXFetcher{client721: client721, client1155: client1155}
 }
 
