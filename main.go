@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/iotexproject/assets/chain"
 	"github.com/iotexproject/assets/own"
 )
@@ -20,6 +21,7 @@ func main() {
 	chains["4690"] = "iotex_test"
 
 	app := fiber.New()
+	app.Use(cors.New())
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("iotex assets")
