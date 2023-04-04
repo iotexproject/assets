@@ -177,10 +177,23 @@ func main() {
 		skip, _ := strconv.Atoi(c.Query("skip", "0"))
 		first, _ := strconv.Atoi(c.Query("first", "10"))
 		var fetcher own.Fetcher
+		rpc, err := tokenList.GetRPC()
+		if err != nil {
+			log.Printf("fetch rpc error: %v\n", err)
+			return c.Status(http.StatusInternalServerError).SendString(err.Error())
+		}
 		if chainName == "ethereum" {
-			fetcher = own.NewEthereumFetcher()
+			fetcher, err = own.NewEthereumFetcher(rpc)
+			if err != nil {
+				log.Printf("instance ethereum fetcher error: %v\n", err)
+				return c.Status(http.StatusInternalServerError).SendString(err.Error())
+			}
 		} else if chainName == "iotex" {
-			fetcher = own.NewIoTeXFetcher()
+			fetcher, err = own.NewIoTeXFetcher(rpc)
+			if err != nil {
+				log.Printf("instance iotex fetcher error: %v\n", err)
+				return c.Status(http.StatusInternalServerError).SendString(err.Error())
+			}
 		} else if chainName == "iotex_test" {
 			fetcher = own.NewIoTeXTestnetFetcher()
 		} else {

@@ -9,18 +9,24 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/hasura/go-graphql-client"
 )
 
 type IoTeXFetcher struct {
 	client721  *graphql.Client
 	client1155 *graphql.Client
+	rpc        *ethclient.Client
 }
 
-func NewIoTeXFetcher() *IoTeXFetcher {
+func NewIoTeXFetcher(endpoint string) (*IoTeXFetcher, error) {
 	client721 := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/ququzone/eip721", nil)
 	client1155 := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/ququzone/eip1155", nil)
-	return &IoTeXFetcher{client721: client721, client1155: client1155}
+	rpc, err := ethclient.Dial(endpoint)
+	if err != nil {
+		return nil, fmt.Errorf("connect rpc error: %v", err)
+	}
+	return &IoTeXFetcher{client721: client721, client1155: client1155, rpc: rpc}, nil
 }
 
 func NewIoTeXTestnetFetcher() *IoTeXFetcher {
@@ -54,6 +60,10 @@ func (f *IoTeXFetcher) fetch721(account string, skip int, first int) ([]OwnToken
 
 	result := make([]OwnToken, len(q.Tokens))
 	for i, token := range q.Tokens {
+		sbt, err := TryCheckSBT(f.rpc, token.Id[:42])
+		if err != nil {
+			return nil, err
+		}
 		result[i] = OwnToken{
 			Contract: token.Id[:42],
 			Type:     "721",
@@ -61,6 +71,7 @@ func (f *IoTeXFetcher) fetch721(account string, skip int, first int) ([]OwnToken
 			Name:     token.Collection.Name,
 			Symbol:   token.Collection.Symbol,
 			Amount:   "1",
+			SBT:      sbt,
 		}
 	}
 
@@ -119,6 +130,10 @@ func (f *IoTeXFetcher) fetch1155(account string, skip int, first int) ([]OwnToke
 
 	result := make([]OwnToken, len(q.TokenOwners))
 	for i, token := range q.TokenOwners {
+		sbt, err := TryCheckSBT(f.rpc, token.Id[:42])
+		if err != nil {
+			return nil, err
+		}
 		result[i] = OwnToken{
 			Contract: token.Id[:42],
 			Type:     "1155",
@@ -126,6 +141,7 @@ func (f *IoTeXFetcher) fetch1155(account string, skip int, first int) ([]OwnToke
 			Name:     token.Token.Collection.Name,
 			Symbol:   token.Token.Collection.Symbol,
 			Amount:   token.Amount,
+			SBT:      sbt,
 		}
 		if result[i].Name == "unknown" {
 			tokenURI := token.Token.TokenURI
