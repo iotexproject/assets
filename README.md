@@ -46,3 +46,19 @@ curl -i http://localhost:3000/account/1/own/0x0000000000000000000000000000000000
 curl -i http://localhost:3000/account/4689/own/0x4309b22dfe0d062f54763e1a9aec74a636fa3276?skip=0&first=10
 curl -i http://localhost:3000/account/4690/own/0xfeed8588af2ba5d18499d97a53de9e2d504d3641?skip=0&first=10
 ```
+
+# Docker
+
+## Build
+
+```
+docker build -t assets:latest .
+```
+
+## Run
+
+```
+docker run -d -p 3000:3000 \
+  -e KEY=XXXXX
+  -e SITE_URL=https://nft.iopay.me
+```
