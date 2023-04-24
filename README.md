@@ -59,6 +59,7 @@ docker build -t assets:latest .
 
 ```
 docker run -d -p 3000:3000 \
-  -e KEY=XXXXX
-  -e SITE_URL=https://nft.iopay.me
+  -e KEY=XXXXX \
+  -e SITE_URL=https://nft.iopay.me \
+  assets
 ```
