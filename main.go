@@ -195,7 +195,11 @@ func main() {
 				return c.Status(http.StatusInternalServerError).SendString(err.Error())
 			}
 		} else if chainName == "iotex_test" {
-			fetcher = own.NewIoTeXTestnetFetcher()
+			fetcher, err = own.NewIoTeXTestnetFetcher(rpc)
+			if err != nil {
+				log.Printf("instance iotex testnet fetcher error: %v\n", err)
+				return c.Status(http.StatusInternalServerError).SendString(err.Error())
+			}
 		} else {
 			return c.Status(http.StatusInternalServerError).SendString("chain does not supported")
 		}

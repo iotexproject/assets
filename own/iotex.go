@@ -29,10 +29,14 @@ func NewIoTeXFetcher(endpoint string) (*IoTeXFetcher, error) {
 	return &IoTeXFetcher{client721: client721, client1155: client1155, rpc: rpc}, nil
 }
 
-func NewIoTeXTestnetFetcher() *IoTeXFetcher {
+func NewIoTeXTestnetFetcher(endpoint string) (*IoTeXFetcher, error) {
 	client721 := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/looksrare/eip721", nil)
 	client1155 := graphql.NewClient("https://graph.mainnet.iotex.io/subgraphs/name/testnet/eip1155", nil)
-	return &IoTeXFetcher{client721: client721, client1155: client1155}
+	rpc, err := ethclient.Dial(endpoint)
+	if err != nil {
+		return nil, fmt.Errorf("connect rpc error: %v", err)
+	}
+	return &IoTeXFetcher{client721: client721, client1155: client1155, rpc: rpc}, nil
 }
 
 func (f *IoTeXFetcher) fetch721(account string, skip int, first int) ([]OwnToken, error) {
