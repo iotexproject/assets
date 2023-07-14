@@ -161,6 +161,7 @@ func ParseNFTImage(network, endpoint string, info *TokenInfo, id string) (string
 		if strings.HasPrefix(tokenURL, "data:application/json;base64,") {
 			image, err = parseDataJsonMetedata(network, info.Id, tokenURL, "image", id)
 			if err != nil {
+				fmt.Println(err)
 				return "", fmt.Errorf("parse image error")
 			}
 		} else if strings.HasPrefix(tokenURL, "http://") || strings.HasPrefix(tokenURL, "https://") {
@@ -197,6 +198,9 @@ func parseDataJsonMetedata(network, address, metadataURI, imageFieldName, id str
 		return "", fmt.Errorf("unmarshal metadata error: %v", err)
 	}
 	imageField := data[imageFieldName].(string)
+	if strings.HasPrefix(imageField, "http") {
+		return imageField, nil
+	}
 	imageData, err := dataurl.DecodeString(imageField)
 	if err != nil {
 		return "", err
