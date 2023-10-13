@@ -180,6 +180,15 @@
             "symbol": "NWT",
             "tokenURI": "iotex_token_metadata",
             "logoURI": "https://iotexproject.iotex.io/iotex-token-metadata/master/images/io1y78c28yc4jrv7qtrwrxf8ldzlsc3f0z2v4fl78.png"
+        },
+        {
+            "type": "ERC721",
+            "address": "0x68db92a6a78a39dcaff1745da9e89e230ef49d3d",
+            "name": "BucketNFT",
+            "symbol": "BKT",
+            "tokenURI": "static_replace_id",
+            "template": "https://image.mimo.exchange/0x68db92a6a78a39dcaff1745da9e89e230ef49d3d/{%s}.png",
+            "logoURI": "https://mimo-assets.b-cdn.net/nftmarket/bucketnft.png"
         }
     ]
 }
