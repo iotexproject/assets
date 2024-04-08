@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -93,6 +94,11 @@ func main() {
 			chainName = t
 		}
 		address := strings.ToLower(c.Params("address"))
+		tokenId := c.Params("tokenId")
+
+		if chainName == "iotex" {
+			return c.SendString(fmt.Sprintf("https://image.mimo.exchange/%s/%s.png?width=300", address, tokenId))
+		}
 
 		var tokenInfo chain.TokenInfo
 		var tokenList chain.TokenList
@@ -131,7 +137,7 @@ func main() {
 			log.Printf("parse token image error: %v\n", err)
 			return c.Status(http.StatusInternalServerError).SendString(err.Error())
 		}
-		image, err := chain.ParseNFTImage(chainName, rpc, &tokenInfo, c.Params("tokenId"))
+		image, err := chain.ParseNFTImage(chainName, rpc, &tokenInfo, tokenId)
 		if err != nil {
 			log.Printf("parse token image error: %v\n", err)
 			return c.Status(http.StatusInternalServerError).SendString("parse token image error")
